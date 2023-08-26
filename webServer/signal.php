@@ -6,9 +6,10 @@
     $json_data = json_decode($json,true);
 
     if($_GET["UUID"] == $json_data["UUID"]){
-        system("gpio -g mode 24 out");
-        system("gpio -g write 24 1");
+        $pin = $json_data["pin"];
+        system("gpio -g mode $pin out");
+        system("gpio -g write $pin 1");
         // sleep(1); To be tested!
-        system("gpio -g write 24 0");
+        system("gpio -g write $pin 0");
     }
 
