@@ -8,7 +8,7 @@
 echo "---- Script for install WebServer ---"
 echo "Do you want to run update&upgrade? (y/n)"
 read update
-if ["$update" -eq "y"]; then
+if ["$update" = "y"]; then
     echo "---- Updateing & Upgrading OS ---"
     sudo apt update -y && sudo apt upgrade -y
 fi
