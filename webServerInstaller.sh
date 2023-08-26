@@ -5,25 +5,24 @@
 # Move content form "WebServer" forlder to /var/www/
 # config httpd file for Apatche ?
 
-echo "---- Script for install WebServer ---"
+echo "\n\n---- Script for install WebServer ---"
 echo "Do you want to run update&upgrade? (y/n)"
 read update
-if ["$update" = "y"]; then
-    echo "---- Updateing & Upgrading OS ---"
-    sudo apt update -y && sudo apt upgrade -y
-fi
 
-echo "---- Installing Apatche ---"
+echo "\n\n---- Updateing & Upgrading OS ---"
+sudo apt update -y && sudo apt upgrade -y
+
+echo "\n\n---- Installing Apatche ---"
 sudo apt install apache2 -y
 
-echo "---- Installing php ---"
+echo "\n\n---- Installing php ---"
 sudo apt install php php-common -y
 
-echo "---- Installing php modules ---"
+echo "\n\n---- Installing php modules ---"
 sudo apt install php-cli php-fpm php-pdo php-zip php-curl php-mysql php-gd php-json php-mbstring php-intl php-xml php-pear php-bcmath -y
 
 # Make config.json
-echo "---- Config.json ---"
+echo "\n\n---- Config.json ---"
 echo "Enter a UUID:"
 read UUID
 echo "Enter your username (default: admin):"
@@ -33,21 +32,21 @@ read password
 echo "Enter pin on controller (default: 24):"
 read pin
 
-echo "---- creating config.json ---"
+echo "\n\n---- creating config.json ---"
 
-if ["$UUID" = ""]; then
+if [ "$UUID" = "" ]; then
     UUID="You_Dum_Dum_You_Forgot_The_UUID"
 fi
 
-if ["$username" = ""]; then
+if [ "$username" = "" ]; then
     username="admin"
 fi
 
-if ["$password" = ""]; then
+if [ "$password" = "" ]; then
     password="admin"
 fi
 
-if ["$pin" = ""]; then
+if [ "$pin" = "" ]; then
     pin="16"
 fi
 
@@ -59,7 +58,7 @@ echo "{
 }" >webServer/config.json
 
 # Move content form "WebServer" forlder to /var/www/
-echo "---- Moving content to /var/www/ ---"
+echo "\n\n---- Moving content to /var/www/ ---"
 sudo rm -r /var/www/*
 
 sudo mkdir /var/www/html
