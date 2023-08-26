@@ -15,7 +15,7 @@
         $_SESSION["UUID"] = $json_data["UUID"];
     }
 
-    if($_SESSION["UUID"] !== $json_data["UUID"]){
+    if(!isset($_SESSION["UUID"]) || $_SESSION["UUID"] !== $json_data["UUID"]){
         ?>
         <!DOCTYPE html>
             <html>
@@ -48,33 +48,15 @@
 <head>
     <title>CarPort</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="jquery-3.7.0.min.js" ></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#signal").click(function(){
-                var a = new XMLHttpRequest();
-                a.open("GET", `signal.php?${<?php echo $json_data["UUID"] ?>}`);
-                a.onreadystatechange=function(){
-                    if(a.readyState !=4){
-                        alert(`HTTP ERROR ${a.status}`, )
-                        return;
-                    }
-                    if (a.status != 200){
-                        alert(`HTTP ERROR ${a.status}`, )
-                        return;
-                    }
-                }
-                a.send()
-            })
-        })
-    </script>
 <head>
 
 <body>
     <div class="main">
-        <button id="signal" type="submit" class="btn">
-            <div class="btn_text">Open/<br>Close</div>
-        </button>
-    </div>
+        <form action="signal.php" method="GET">
+            <input type="hidden" name="UUID" value="<?php echo $_SESSION["UUID"];?>">
+            <button id="signal" type="submit" class="btn">
+                <div class="btn_text">Open/<br>Close</div>
+            </button>
+        </form>
 </body>
 </html>

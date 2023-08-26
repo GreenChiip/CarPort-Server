@@ -6,8 +6,12 @@
 # config httpd file for Apatche ?
 
 echo "---- Script for install WebServer ---"
-echo "---- Updateing & Upgrading OS ---"
-sudo apt update -y && sudo apt upgrade -y
+echo "Do you want to run update&upgrade? (y/n)"
+read update
+if ["$update" -eq "y"]; then
+    echo "---- Updateing & Upgrading OS ---"
+    sudo apt update -y && sudo apt upgrade -y
+fi
 
 echo "---- Installing Apatche ---"
 sudo apt install apache2 -y
@@ -31,20 +35,20 @@ read pin
 
 echo "---- creating config.json ---"
 
-if "$UUID" -eq ""; then
+if ["$UUID" = ""]; then
     UUID="You_Dum_Dum_You_Forgot_The_UUID"
 fi
 
-if "$username" -eq ""; then
+if ["$username" = ""]; then
     username="admin"
 fi
 
-if "$password" -eq ""; then
+if ["$password" = ""]; then
     password="admin"
 fi
 
-if "$pin" -eq ""; then
-    pin="24"
+if ["$pin" = ""]; then
+    pin="16"
 fi
 
 echo "{
@@ -52,8 +56,25 @@ echo "{
     \"username\": \"$username\",
     \"password\": \"$password\",
     \"pin\": \"$pin\"
-}" >WebServer/config.json
+}" >webServer/config.json
 
 # Move content form "WebServer" forlder to /var/www/
 echo "---- Moving content to /var/www/ ---"
-sudo cp -r WebServer/* /var/www/
+sudo rm -r /var/www/*
+
+sudo mkdir /var/www/html
+sudo cp -r webServer/* /var/www/html/
+sudo usermod -G gpio www-data
+sudo useradd -G gpio www-data
+
+echo "---- Rebooting (5) ---"
+sleep 1
+echo "---- Rebooting (4) ---"
+sleep 1
+echo "---- Rebooting (3) ---"
+sleep 1
+echo "---- Rebooting (2) ---"
+sleep 1
+echo "---- Rebooting (1) ---"
+
+sudo reboot
